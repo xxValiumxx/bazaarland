@@ -3,21 +3,51 @@ class Controller_Messages extends Controller_Template{
 
 	public function action_index()
 	{
-		$data['messages'] = Model_Message::find('all');
-		$this->template->title = "Messages";
-		$this->template->content = View::forge('messages/index', $data);
+		$messages = Model_Message::find('all');
 
+		$comment_links = array();
+		foreach ($messages as $message)
+		{
+			$results = DB::select()
+				->from('comments')
+				->where('message_id', $message->id)
+				->execute();
+
+			$count = count($results);
+
+			if ($count == 0)
+			{
+				$comment_links[$message->id] = 'View';
+			}
+			else
+			{
+				$comment_links[$message->id] = $count.' '.Inflector::pluralize('Comment', $count);
+			}
+		}
+
+		$view = View::forge('messages/index');
+		$view->set('comment_links', $comment_links);
+		$view->set('messages', $messages);
+		$this->template->title = "Messages";
+		$this->template->content = $view;
 	}
 
 	public function action_view($id = null)
 	{
 		is_null($id) and Response::redirect('messages');
 
-		if ( ! $data['message'] = Model_Message::find($id))
+		if ( ! $message = Model_Message::find($id))
 		{
 			Session::set_flash('error', 'Could not find message #'.$id);
 			Response::redirect('messages');
 		}
+
+		$comments = Model_Comment::find('all', array('where' => array('message_id' => $id)));
+
+		$data = array(
+			'message' => $message,
+			'comments' => $comments
+		);
 
 		$this->template->title = "Message";
 		$this->template->content = View::forge('messages/view', $data);
@@ -29,7 +59,7 @@ class Controller_Messages extends Controller_Template{
 		if (Input::method() == 'POST')
 		{
 			$val = Model_Message::validate('create');
-			
+
 			if ($val->run())
 			{
 				$message = Model_Message::forge(array(
