@@ -36,9 +36,9 @@ class Controller_Comments extends Controller_Template
 		if (Input::post())
 		{
 			$comment = Model_Comment::forge(array(
-				'name' => Input::post('name'),
+				'name' => Auth::instance()->get_screen_name(),
 				'comment' => Input::post('comment'),
-				'message_id' => Input::post('message_id'),
+				'id' => $id,
 			));
 
 			if ($comment and $comment->save())

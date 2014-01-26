@@ -4,8 +4,7 @@
 		<div class="form-group">
 			<?php echo Form::label('Name', 'name', array('class'=>'control-label')); ?>
 
-				<?php echo Form::input('name', Input::post('name', isset($message) ? $message->name : ''), array('class' => 'col-md-4 form-control', 'placeholder'=>'Name')); ?>
-
+				<?php echo 'Name: '.Auth::instance()->get_screen_name(); ?>
 		</div>
 		<div class="form-group">
 			<?php echo Form::label('Message', 'message', array('class'=>'control-label')); ?>
