@@ -39,7 +39,7 @@ class Model_User extends \Orm\Model
         
         public static function validate_registration(Fieldset $form, $auth)
         {
-            $form->field('password')->add_rule('mathc_value', $form->Lfireld('password2')->get_attribute('value'));
+            $form->field('password')->add_rule('match_value', $form->field('password2')->get_attribute('value'));
             $val = $form->validation();
             $val->set_message('required', 'The field :field is required');
             $val->set_message('valid_email', 'The field :field must be an email address');

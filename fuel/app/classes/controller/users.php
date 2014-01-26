@@ -9,8 +9,9 @@ class Controller_Users extends Controller_Template
             $form = Form::forge('login');
             $auth = Auth::instance();
             $form->add('username', 'Username:');
-            $form->add('password', 'Password', array('type', 'password'));
-            if (Iput::post())
+            $form->add('password', 'Password', array('type' => 'password'));
+            $form->add('submit', ' ', array('type' => 'submit', 'value' => 'Login'));
+            if (Input::post())
             {
                 if ($auth->login(Input::post('username'), Input::post('password')))
                 {
@@ -23,7 +24,7 @@ class Controller_Users extends Controller_Template
                 }
             }
             $view->set('form', $form, false);
-            $this->template->title = 'User $raquo; Login';
+            $this->template->title = 'User &raquo; Login';
             $this->template->content = $view;
         }
 
