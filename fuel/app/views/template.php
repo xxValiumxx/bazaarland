@@ -5,6 +5,7 @@
 	<title><?php echo $title; ?></title>
 	<?php echo Asset::css('bootstrap.css'); ?>
 	<style>
+            @import url(http://fonts.googleapis.com/css?family=Ultra);
 		body { margin: 40px; }
 	</style>
 </head>
