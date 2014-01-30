@@ -6,9 +6,14 @@
 	<?php echo Asset::css('bootstrap.css'); ?>
 	<style>
             @import url(http://fonts.googleapis.com/css?family=Ultra);
+            html
+            {
+                height: 100%;
+            }
             body
             {
                 font-family: Ultra;
+                min-height: 100%;
             }
             #upper_half
             {
